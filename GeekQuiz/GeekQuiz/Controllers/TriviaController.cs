@@ -51,8 +51,13 @@ namespace GeekQuiz.Controllers
     private async Task<bool> StoreAsync(TriviaAnswer answer)
     {
       this.db.TriviaAnswers.Add(answer);
+      try {
+        await this.db.SaveChangesAsync();
+      }
+      catch(Exception ex)
+      {
 
-      await this.db.SaveChangesAsync();
+      }
       var selectedOption = await this.db.TriviaOptions.FirstOrDefaultAsync(o => o.Id == answer.OptionId
           && o.QuestionId == answer.QuestionId);
 
